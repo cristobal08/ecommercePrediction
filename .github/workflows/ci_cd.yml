@@ -4,47 +4,28 @@ name: MLOps Sales Prediction Pipeline
 on: [push, pull_request]
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run tests
+        run: python src/models/train_model.py
+
   train:
     needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Python
-        # .github/workflows/ci_cd.yml
-name: MLOps Sales Prediction Pipeline
-
-on: [push, pull_request]
-
-jobs:
-  train:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.9
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-    - name: Train Model
-      run: python src/models/train_model.py
-    
-  deploy:
-    needs: train
-    runs-on: ubuntu-latest
-    steps:
-    - name: Deploy to Cloud
-      run: echo "Deployment script here": actions/setup-python@v2
-        with:
-          python-version: 3.9
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
       - name: Train Model
-        run: |
-          python src/models/train_model.py
+        run: python src/models/train_model.py
 
   deploy:
     needs: train

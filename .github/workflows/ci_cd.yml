@@ -15,7 +15,6 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
 
   train:
     needs: test
@@ -23,7 +22,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Train Model
-        run: python src/models/train_model.py
+        run: |
+          pip install -r requirements.txt
+          python src/models/train_model.py
 
   deploy:
     needs: train

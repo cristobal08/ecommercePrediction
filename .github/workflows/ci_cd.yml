@@ -19,6 +19,7 @@ jobs:
       - name: Run tests
         run: python src/models/train_model.py
 
+
   train:
     needs: test
     runs-on: ubuntu-latest

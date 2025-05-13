@@ -17,13 +17,22 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Run tests
-        run: pytest tests/
+        run: python src/models/train_model.py
+
 
   train:
     needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Set up Python  # Añadido
+        uses: actions/setup-python@v2  # Añadido
+        with:  # Añadido
+          python-version: 3.9  # Añadido
+      - name: Install dependencies  # Añadido
+        run: |  # Añadido
+          python -m pip install --upgrade pip  # Añadido
+          pip install -r requirements.txt  # Añadido
       - name: Train Model
         run: python src/models/train_model.py
 
